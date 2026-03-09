@@ -1,0 +1,381 @@
+/* ═══════════════════════════════════════════════════════════
+   CLINIQUE MÉDICALE — Feuille de style globale
+   ═══════════════════════════════════════════════════════════ */
+
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #F4F6F9;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LOGIN
+   ═══════════════════════════════════════════════════════════ */
+.login-root {
+    -fx-background-color: linear-gradient(to bottom right, #0D47A1, #1565C0, #00ACC1);
+}
+
+.login-card {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-padding: 40 48 40 48;
+    -fx-max-width: 400;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 30, 0, 0, 8);
+}
+
+.login-titre {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0D47A1;
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+}
+
+.login-sous-titre {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5A6A7E;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LAYOUT PRINCIPAL
+   ═══════════════════════════════════════════════════════════ */
+.main-root {
+    -fx-background-color: #F4F6F9;
+}
+
+/* ── Sidebar ────────────────────────────────────────────── */
+.sidebar {
+    -fx-background-color: #0D47A1;
+    -fx-padding: 0 0 16 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 12, 0, 4, 0);
+}
+
+.sidebar-header {
+    -fx-background-color: #0A3880;
+    -fx-padding: 24 16 20 16;
+}
+
+.sidebar-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+}
+
+.sidebar-role {
+    -fx-font-size: 11px;
+    -fx-text-fill: rgba(255,255,255,0.65);
+    -fx-font-style: italic;
+}
+
+.sidebar-separator {
+    -fx-background-color: rgba(255,255,255,0.15);
+    -fx-padding: 0 16 0 16;
+}
+
+.sidebar-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: rgba(255,255,255,0.80);
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 10 20 10 20;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+}
+
+.sidebar-btn:hover {
+    -fx-background-color: rgba(255,255,255,0.12);
+    -fx-text-fill: white;
+}
+
+.sidebar-btn-active {
+    -fx-background-color: rgba(255,255,255,0.18);
+    -fx-text-fill: white;
+    -fx-border-color: transparent transparent transparent white;
+    -fx-border-width: 0 0 0 3;
+    -fx-font-weight: bold;
+}
+
+.sidebar-user {
+    -fx-padding: 12 16 0 16;
+}
+
+.sidebar-username {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.sidebar-userrole {
+    -fx-font-size: 10px;
+    -fx-text-fill: rgba(255,255,255,0.55);
+    -fx-padding: 0 0 6 0;
+}
+
+/* ── Topbar ─────────────────────────────────────────────── */
+.content-area {
+    -fx-background-color: #F4F6F9;
+}
+
+.topbar {
+    -fx-background-color: white;
+    -fx-padding: 14 24 14 24;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2);
+}
+
+.page-titre {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1A2332;
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+}
+
+.topbar-date {
+    -fx-font-size: 12px;
+    -fx-text-fill: #5A6A7E;
+}
+
+.content-pane {
+    -fx-padding: 24;
+    -fx-background-color: #F4F6F9;
+}
+
+.view-root {
+    -fx-padding: 24;
+    -fx-background-color: #F4F6F9;
+}
+
+.view-titre {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0D47A1;
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+    -fx-padding: 0 0 8 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DASHBOARD — Statistiques
+   ═══════════════════════════════════════════════════════════ */
+.dashboard-content {
+    -fx-padding: 8;
+}
+
+.stat-card {
+    -fx-background-radius: 12;
+    -fx-padding: 20 24 20 24;
+    -fx-alignment: CENTER;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+    -fx-cursor: hand;
+}
+
+.stat-number {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+}
+
+.stat-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(0,0,0,0.60);
+}
+
+.stat-blue   { -fx-background-color: #E3F2FD; }
+.stat-green  { -fx-background-color: #E8F5E9; }
+.stat-orange { -fx-background-color: #FFF3E0; }
+.stat-red    { -fx-background-color: #FFEBEE; }
+
+.stat-blue   .stat-number { -fx-text-fill: #1565C0; }
+.stat-green  .stat-number { -fx-text-fill: #2E7D32; }
+.stat-orange .stat-number { -fx-text-fill: #E65100; }
+.stat-red    .stat-number { -fx-text-fill: #C62828; }
+
+/* ═══════════════════════════════════════════════════════════
+   CARTES
+   ═══════════════════════════════════════════════════════════ */
+.form-card, .table-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);
+}
+
+.card-titre {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1A2332;
+    -fx-padding: 0 0 8 0;
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FORMULAIRES
+   ═══════════════════════════════════════════════════════════ */
+.form-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5A6A7E;
+}
+
+.form-input, .text-field, .password-field, .text-area,
+.date-picker .date-picker-display-node, .combo-box {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #DEE3EA;
+    -fx-border-radius: 7;
+    -fx-background-radius: 7;
+    -fx-padding: 8 12 8 12;
+    -fx-font-size: 13px;
+    -fx-text-fill: #1A2332;
+}
+
+.form-input:focused, .text-field:focused, .password-field:focused,
+.text-area:focused, .combo-box:focused {
+    -fx-border-color: #1565C0;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(21,101,192,0.15), 4, 0, 0, 0);
+}
+
+.search-bar {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 12 16 12 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0, 0, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TABLEAU
+   ═══════════════════════════════════════════════════════════ */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #DEE3EA;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #EEF2F7;
+    -fx-background-radius: 8 8 0 0;
+}
+
+.table-view .column-header .label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #1A2332;
+    -fx-font-size: 12px;
+    -fx-padding: 10 8 10 8;
+}
+
+.table-row-cell {
+    -fx-border-color: transparent transparent #F0F2F5 transparent;
+    -fx-padding: 4 0 4 0;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #E3F2FD;
+    -fx-text-fill: #0D47A1;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #F5F8FF;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BOUTONS
+   ═══════════════════════════════════════════════════════════ */
+.button {
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+    -fx-background-radius: 7;
+    -fx-padding: 9 18 9 18;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.btn-primary {
+    -fx-background-color: #1565C0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.btn-primary:hover   { -fx-background-color: #0D47A1; }
+.btn-primary:pressed { -fx-background-color: #083580; }
+
+.btn-secondary {
+    -fx-background-color: #EEF2F7;
+    -fx-text-fill: #1A2332;
+}
+.btn-secondary:hover { -fx-background-color: #DEE3EA; }
+
+.btn-danger {
+    -fx-background-color: #C62828;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.btn-danger:hover   { -fx-background-color: #B71C1C; }
+.btn-danger:pressed { -fx-background-color: #8B0000; }
+
+.btn-success {
+    -fx-background-color: #2E7D32;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.btn-success:hover { -fx-background-color: #1B5E20; }
+
+.btn-info {
+    -fx-background-color: #00838F;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.btn-info:hover { -fx-background-color: #006064; }
+
+.btn-logout {
+    -fx-background-color: rgba(255,255,255,0.12);
+    -fx-text-fill: rgba(255,255,255,0.85);
+    -fx-border-color: rgba(255,255,255,0.25);
+    -fx-border-radius: 7;
+    -fx-background-radius: 7;
+    -fx-padding: 8 16 8 16;
+}
+.btn-logout:hover {
+    -fx-background-color: rgba(198,40,40,0.75);
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+}
+
+.button:disabled {
+    -fx-opacity: 0.45;
+    -fx-cursor: default;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MESSAGES
+   ═══════════════════════════════════════════════════════════ */
+.msg-succes {
+    -fx-text-fill: #1B5E20;
+    -fx-background-color: #E8F5E9;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.msg-erreur {
+    -fx-text-fill: #B71C1C;
+    -fx-background-color: #FFEBEE;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.msg-info {
+    -fx-text-fill: #004D6E;
+    -fx-background-color: #E1F5FE;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12;
+    -fx-font-size: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SÉPARATEURS
+   ═══════════════════════════════════════════════════════════ */
+.separator .line {
+    -fx-border-color: #DEE3EA;
+    -fx-border-width: 1 0 0 0;
+}

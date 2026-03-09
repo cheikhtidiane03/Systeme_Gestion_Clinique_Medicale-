@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="sn.cheikh.gestion_clinique_medicale.Controller.UtilisateurController"
+      styleClass="view-root" spacing="16"
+      stylesheets="@../css/style.css">
+
+    <Label text="Gestion des Utilisateurs" styleClass="view-titre"/>
+
+    <HBox spacing="16" VBox.vgrow="ALWAYS">
+
+        <ScrollPane fitToWidth="true" prefWidth="340" minWidth="340"
+                    style="-fx-background-color:transparent; -fx-background:transparent; -fx-border-color:transparent;">
+            <VBox styleClass="form-card" spacing="10">
+                <Label text="Informations utilisateur" styleClass="card-titre"/>
+                <Separator/>
+                <Label text="Nom *" styleClass="form-label"/>
+                <TextField fx:id="tfNom" promptText="Nom" styleClass="form-input"/>
+                <Label text="Prenom *" styleClass="form-label"/>
+                <TextField fx:id="tfPrenom" promptText="Prenom" styleClass="form-input"/>
+                <Label text="Login *" styleClass="form-label"/>
+                <TextField fx:id="tfLogin" promptText="Login" styleClass="form-input"/>
+                <Label text="Mot de passe" styleClass="form-label"/>
+                <PasswordField fx:id="pfMotDePasse" promptText="Laisser vide pour ne pas changer"
+                               styleClass="form-input"/>
+                <Label text="Role *" styleClass="form-label"/>
+                <ComboBox fx:id="cbRole" promptText="Selectionner un role"
+                          maxWidth="Infinity" styleClass="form-input"/>
+                <CheckBox fx:id="cbActif" text="Compte actif" selected="true"
+                          style="-fx-padding: 4 0 0 0;"/>
+                <Label fx:id="lblMessage" styleClass="msg-info" wrapText="true"/>
+                <HBox spacing="8">
+                    <Button text="Sauvegarder" onAction="#sauvegarder"
+                            styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    <Button text="Nouveau" onAction="#nouveau"
+                            styleClass="btn-secondary" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                </HBox>
+                <Button text="Supprimer" onAction="#supprimer"
+                        styleClass="btn-danger" maxWidth="Infinity"/>
+            </VBox>
+        </ScrollPane>
+
+        <VBox styleClass="table-card" spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="Liste des utilisateurs" styleClass="card-titre"/>
+            <Separator/>
+            <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId"     text="ID"     prefWidth="50"/>
+                    <TableColumn fx:id="colNom"    text="Nom"    prefWidth="130"/>
+                    <TableColumn fx:id="colPrenom" text="Prenom" prefWidth="130"/>
+                    <TableColumn fx:id="colLogin"  text="Login"  prefWidth="130"/>
+                    <TableColumn fx:id="colRole"   text="Role"   prefWidth="120"/>
+                    <TableColumn fx:id="colActif"  text="Actif"  prefWidth="70"/>
+                </columns>
+                <placeholder><Label text="Aucun utilisateur enregistre"/></placeholder>
+            </TableView>
+        </VBox>
+    </HBox>
+</VBox>

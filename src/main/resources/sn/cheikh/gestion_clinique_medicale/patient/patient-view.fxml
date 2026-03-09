@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="sn.cheikh.gestion_clinique_medicale.Controller.PatientController"
+      styleClass="view-root" spacing="16"
+      stylesheets="@../css/style.css">
+
+    <Label text="Gestion des Patients" styleClass="view-titre"/>
+
+    <HBox spacing="8" styleClass="search-bar">
+        <TextField fx:id="tfRecherche" promptText="Rechercher par nom, prenom ou telephone..."
+                   styleClass="form-input" HBox.hgrow="ALWAYS"/>
+        <Button text="Rechercher"    onAction="#rechercher"   styleClass="btn-primary"/>
+        <Button text="Tout afficher" onAction="#afficherTous" styleClass="btn-secondary"/>
+        <Button text="Nouveau"       onAction="#nouveau"      styleClass="btn-secondary"/>
+    </HBox>
+
+    <HBox spacing="16" VBox.vgrow="ALWAYS">
+
+        <ScrollPane fitToWidth="true" prefWidth="340" minWidth="340"
+                    style="-fx-background-color:transparent; -fx-background:transparent; -fx-border-color:transparent;">
+            <VBox styleClass="form-card" spacing="10">
+                <Label text="Informations patient" styleClass="card-titre"/>
+                <Separator/>
+                <Label text="Nom *" styleClass="form-label"/>
+                <TextField fx:id="tfNom" promptText="Nom" styleClass="form-input"/>
+                <Label text="Prenom *" styleClass="form-label"/>
+                <TextField fx:id="tfPrenom" promptText="Prenom" styleClass="form-input"/>
+                <Label text="Date de naissance *" styleClass="form-label"/>
+                <DatePicker fx:id="dpDateNaissance" maxWidth="Infinity" styleClass="form-input"/>
+                <Label text="Sexe" styleClass="form-label"/>
+                <ComboBox fx:id="cbSexe" maxWidth="Infinity" styleClass="form-input"
+                          promptText="Selectionner le sexe"/>
+                <Label text="Telephone *" styleClass="form-label"/>
+                <TextField fx:id="tfTelephone" promptText="77XXXXXXX" styleClass="form-input"/>
+                <Label text="Adresse" styleClass="form-label"/>
+                <TextField fx:id="tfAdresse" promptText="Adresse complete" styleClass="form-input"/>
+                <Label text="Groupe sanguin" styleClass="form-label"/>
+                <TextField fx:id="tfGroupeSanguin" promptText="A+, B-, AB+, O-..."
+                           styleClass="form-input"/>
+                <Label text="Antecedents medicaux" styleClass="form-label"/>
+                <TextArea fx:id="taAntecedents"
+                          promptText="Antecedents, allergies, maladies chroniques..."
+                          prefRowCount="4" styleClass="form-input" wrapText="true"/>
+                <Label fx:id="lblMessage" styleClass="msg-info" wrapText="true"/>
+                <HBox spacing="8">
+                    <Button text="Sauvegarder" onAction="#sauvegarder"
+                            styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    <Button fx:id="btnSupprimer" text="Supprimer" onAction="#supprimer"
+                            styleClass="btn-danger" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+
+        <VBox styleClass="table-card" spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="Liste des patients" styleClass="card-titre"/>
+            <Separator/>
+            <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId"            text="ID"        prefWidth="50"/>
+                    <TableColumn fx:id="colNom"           text="Nom"       prefWidth="120"/>
+                    <TableColumn fx:id="colPrenom"        text="Prenom"    prefWidth="120"/>
+                    <TableColumn fx:id="colDateNaissance" text="Naissance" prefWidth="100"/>
+                    <TableColumn fx:id="colSexe"          text="Sexe"      prefWidth="80"/>
+                    <TableColumn fx:id="colTelephone"     text="Telephone" prefWidth="110"/>
+                    <TableColumn fx:id="colGroupeSanguin" text="Groupe"    prefWidth="70"/>
+                </columns>
+                <placeholder><Label text="Aucun patient enregistre"/></placeholder>
+            </TableView>
+        </VBox>
+    </HBox>
+</VBox>

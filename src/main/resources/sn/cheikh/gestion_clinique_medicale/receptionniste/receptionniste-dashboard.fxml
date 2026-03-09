@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="sn.cheikh.gestion_clinique_medicale.Controller.ReceptionisteDashboardController"
+      stylesheets="@../css/style.css"
+      styleClass="main-root"
+      prefWidth="1100" prefHeight="700">
+
+    <VBox styleClass="sidebar" prefWidth="220" minWidth="220">
+        <VBox styleClass="sidebar-header" spacing="4">
+            <Label text="Clinique" styleClass="sidebar-title"/>
+            <Label text="RECEPTIONNISTE" styleClass="sidebar-role"/>
+        </VBox>
+        <VBox styleClass="sidebar-user" spacing="2">
+            <Label fx:id="lblNomUtilisateur" text="Utilisateur" styleClass="sidebar-username"/>
+            <Label fx:id="lblDate" text="" styleClass="sidebar-userrole"/>
+        </VBox>
+        <Separator styleClass="sidebar-separator"/>
+        <VBox spacing="2" style="-fx-padding: 8 0 0 0;" VBox.vgrow="ALWAYS">
+            <Button text="Tableau de bord" onAction="#afficherDashboard"  maxWidth="Infinity" styleClass="sidebar-btn"/>
+            <Button text="Patients"        onAction="#afficherPatients"   maxWidth="Infinity" styleClass="sidebar-btn"/>
+            <Button text="Rendez-vous"     onAction="#afficherRendezVous" maxWidth="Infinity" styleClass="sidebar-btn"/>
+            <Button text="Facturation"     onAction="#afficherFactures"   maxWidth="Infinity" styleClass="sidebar-btn"/>
+        </VBox>
+        <VBox style="-fx-padding: 0 16 8 16;">
+            <Button text="Deconnexion" onAction="#deconnecter" maxWidth="Infinity" styleClass="btn-logout"/>
+        </VBox>
+    </VBox>
+
+    <VBox HBox.hgrow="ALWAYS" styleClass="content-area">
+        <HBox styleClass="topbar" alignment="CENTER_LEFT">
+            <Label fx:id="lblPageTitre" text="Tableau de bord" styleClass="page-titre"/>
+        </HBox>
+        <StackPane fx:id="contentPane" VBox.vgrow="ALWAYS">
+            <VBox fx:id="dashboardPane" styleClass="content-pane" spacing="20">
+                <HBox spacing="16">
+                    <VBox styleClass="stat-card stat-blue" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="6">
+                        <Label fx:id="lblRdvJour" text="0" styleClass="stat-number"/>
+                        <Label text="RDV aujourd'hui" styleClass="stat-label"/>
+                    </VBox>
+                    <VBox styleClass="stat-card stat-green" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="6">
+                        <Label fx:id="lblNbPatients" text="0" styleClass="stat-number"/>
+                        <Label text="Patients" styleClass="stat-label"/>
+                    </VBox>
+                    <VBox styleClass="stat-card stat-red" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="6">
+                        <Label fx:id="lblFacturesImpayees" text="0" styleClass="stat-number"/>
+                        <Label text="Factures impayes" styleClass="stat-label"/>
+                    </VBox>
+                </HBox>
+                <VBox styleClass="table-card" spacing="10" VBox.vgrow="ALWAYS">
+                    <Label text="Rendez-vous du jour" styleClass="card-titre"/>
+                    <Separator/>
+                    <TableView fx:id="tableRdvJour" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colRdvPatient" text="Patient" prefWidth="180"/>
+                            <TableColumn fx:id="colRdvMedecin" text="Medecin" prefWidth="180"/>
+                            <TableColumn fx:id="colRdvHeure"   text="Heure"   prefWidth="100"/>
+                            <TableColumn fx:id="colRdvStatut"  text="Statut"  prefWidth="120"/>
+                        </columns>
+                        <placeholder><Label text="Aucun rendez-vous aujourd'hui"/></placeholder>
+                    </TableView>
+                </VBox>
+            </VBox>
+        </StackPane>
+    </VBox>
+</HBox>
