@@ -12,10 +12,8 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Enregistrer le stage principal dans Navigation
         Navigation.setPrimaryStage(stage);
 
-        // Charger la vue de login
         FXMLLoader fxmlLoader = new FXMLLoader(
                 HelloApplication.class.getResource(
                         "/sn/cheikh/gestion_clinique_medicale/auth/login-view.fxml"
