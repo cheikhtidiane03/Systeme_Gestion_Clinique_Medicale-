@@ -8,136 +8,133 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
-import sn.cheikh.gestion_clinique_medicale.Service.ConsultationService;
-import sn.cheikh.gestion_clinique_medicale.Service.PatientService;
-import sn.cheikh.gestion_clinique_medicale.Service.RendezVousService;
-import sn.cheikh.gestion_clinique_medicale.Utilitaire.Navigation;
+import javafx.scene.layout.VBox;
+import sn.cheikh.gestion_clinique_medicale.Service.*;
 import sn.cheikh.gestion_clinique_medicale.model.RendezVous;
 import sn.cheikh.gestion_clinique_medicale.model.SessionUtilisateur;
 import sn.cheikh.gestion_clinique_medicale.model.Utilisateur;
+import sn.cheikh.gestion_clinique_medicale.Utilitaire.Navigation;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class MedecinDashboardController implements Initializable {
 
-    @FXML private Label      lblNomUtilisateur;
-    @FXML private Label      lblDate;
-    @FXML private Label      lblPageTitre;
-    @FXML private Label      lblMesRdvJour;
-    @FXML private Label      lblMesConsultations;
-    @FXML private Label      lblMesPatients;
+    @FXML private Label     lblNomUtilisateur;
+    @FXML private Label     lblDate;
+    @FXML private Label     lblPageTitre;
+    @FXML private Label     lblTopDate;
+    @FXML private StackPane contentPane;
+    @FXML private VBox      dashboardPane;
 
-    @FXML private StackPane  contentPane;
-    @FXML private javafx.scene.layout.VBox dashboardPane;
+    @FXML private Label lblMesRdvJour;
+    @FXML private Label lblMesConsultations;
+    @FXML private Label lblMesPatients;
 
-    @FXML private TableView<RendezVous>            tableRdvJour;
-    @FXML private TableColumn<RendezVous, String>  colRdvPatient;
-    @FXML private TableColumn<RendezVous, String>  colRdvHeure;
-    @FXML private TableColumn<RendezVous, String>  colRdvMotif;
-    @FXML private TableColumn<RendezVous, String>  colRdvStatut;
+    @FXML private TableView<RendezVous>           tableRdvJour;
+    @FXML private TableColumn<RendezVous, String> colRdvPatient;
+    @FXML private TableColumn<RendezVous, String> colRdvHeure;
+    @FXML private TableColumn<RendezVous, String> colRdvMotif;
+    @FXML private TableColumn<RendezVous, String> colRdvStatut;
 
-    private final RendezVousService   rdvService          = new RendezVousService();
+    // Boutons sidebar
+    @FXML private Button btnDashboard;
+    @FXML private Button btnPatients;
+    @FXML private Button btnRendezVous;
+    @FXML private Button btnConsultations;
+
+    private final RendezVousService   rendezVousService   = new RendezVousService();
     private final ConsultationService consultationService = new ConsultationService();
     private final PatientService      patientService      = new PatientService();
 
-    private final DateTimeFormatter fmtDate  = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", java.util.Locale.FRENCH);
     private final DateTimeFormatter fmtHeure = DateTimeFormatter.ofPattern("HH:mm");
+    private final DateTimeFormatter fmtDate  = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Nom utilisateur connecté
         Utilisateur connecte = SessionUtilisateur.getInstance().getUtilisateurConnecte();
-        if (connecte != null) {
-            lblNomUtilisateur.setText("Dr. " + connecte.getNomComplet());
-        }
-        lblDate.setText(LocalDate.now().format(fmtDate));
+        lblNomUtilisateur.setText("Dr. " + SessionUtilisateur.getInstance().getNomUtilisateur());
+        String dateStr = LocalDate.now().format(fmtDate);
+        lblDate.setText(dateStr);
+        if (lblTopDate != null) lblTopDate.setText(dateStr);
 
-        // Colonnes tableau RDV
-        colRdvPatient.setCellValueFactory(d ->
-                new SimpleStringProperty(d.getValue().getPatient() != null
-                        ? d.getValue().getPatient().getNomComplet() : ""));
-        colRdvHeure.setCellValueFactory(d ->
-                new SimpleStringProperty(d.getValue().getDateHeure() != null
-                        ? d.getValue().getDateHeure().format(fmtHeure) : ""));
-        colRdvMotif.setCellValueFactory(d ->
-                new SimpleStringProperty(d.getValue().getMotif() != null
-                        ? d.getValue().getMotif() : ""));
-        colRdvStatut.setCellValueFactory(d ->
-                new SimpleStringProperty(d.getValue().getStatut() != null
-                        ? d.getValue().getStatut().name() : ""));
+        colRdvPatient.setCellValueFactory(d -> new SimpleStringProperty(
+                d.getValue().getPatient().getNomComplet()));
+        colRdvHeure.setCellValueFactory(d -> new SimpleStringProperty(
+                d.getValue().getDateHeure().format(fmtHeure)));
+        colRdvMotif.setCellValueFactory(d -> new SimpleStringProperty(
+                d.getValue().getMotif()));
+        colRdvStatut.setCellValueFactory(d -> new SimpleStringProperty(
+                d.getValue().getStatut().name()));
 
+        setActif(btnDashboard);
         Platform.runLater(this::chargerStats);
+    }
+
+    private void setActif(Button boutonActif) {
+        Button[] tous = { btnDashboard, btnPatients, btnRendezVous, btnConsultations };
+        for (Button btn : tous) {
+            if (btn == null) continue;
+            btn.getStyleClass().remove("sidebar-btn-active");
+            if (!btn.getStyleClass().contains("sidebar-btn"))
+                btn.getStyleClass().add("sidebar-btn");
+        }
+        if (boutonActif != null) {
+            boutonActif.getStyleClass().remove("sidebar-btn");
+            if (!boutonActif.getStyleClass().contains("sidebar-btn-active"))
+                boutonActif.getStyleClass().add("sidebar-btn-active");
+        }
     }
 
     private void chargerStats() {
         try {
             Utilisateur connecte = SessionUtilisateur.getInstance().getUtilisateurConnecte();
-            if (connecte == null) return;
+            List<RendezVous> mesRdvJour = rendezVousService.getRendezVousParMedecin(connecte)
+                    .stream()
+                    .filter(r -> r.getDateHeure().toLocalDate().equals(LocalDate.now()))
+                    .toList();
 
-            // RDV du jour pour ce médecin
-            List<RendezVous> rdvJour = rdvService.getRendezVousDuJour().stream()
-                    .filter(r -> r.getMedecin() != null
-                            && r.getMedecin().getId().equals(connecte.getId()))
-                    .collect(Collectors.toList());
+            lblMesRdvJour.setText(String.valueOf(mesRdvJour.size()));
+            lblMesConsultations.setText(String.valueOf(
+                    consultationService.getConsultationsParMedecin(connecte).size()));
+            lblMesPatients.setText(String.valueOf(
+                    patientService.getTousPatients().size()));
 
-            lblMesRdvJour.setText(String.valueOf(rdvJour.size()));
-            tableRdvJour.setItems(FXCollections.observableArrayList(rdvJour));
-
-            // Total consultations du médecin
-            long nbConsultations = consultationService
-                    .getConsultationsParMedecin(connecte).size();
-            lblMesConsultations.setText(String.valueOf(nbConsultations));
-
-            // Nombre de patients distincts
-            long nbPatients = consultationService
-                    .getConsultationsParMedecin(connecte).stream()
-                    .map(c -> c.getPatient().getId())
-                    .distinct()
-                    .count();
-            lblMesPatients.setText(String.valueOf(nbPatients));
-
+            tableRdvJour.setItems(FXCollections.observableArrayList(mesRdvJour));
+            tableRdvJour.refresh();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Erreur chargement stats médecin : " + e.getMessage());
         }
     }
 
-    // ── Navigation ──
-
-    @FXML
-    private void afficherDashboard() {
+    @FXML private void afficherDashboard() {
+        setActif(btnDashboard);
         lblPageTitre.setText("Tableau de bord");
+        contentPane.getChildren().setAll(dashboardPane);
         dashboardPane.setVisible(true);
-        // Masquer les autres vues chargées dynamiquement
-        contentPane.getChildren().stream()
-                .filter(n -> n != dashboardPane)
-                .forEach(n -> n.setVisible(false));
         Platform.runLater(this::chargerStats);
     }
 
-    @FXML
-    private void afficherPatients() {
+    @FXML private void afficherPatients() {
+        setActif(btnPatients);
         chargerVue("patient/patient-view.fxml", "Mes Patients");
     }
 
-    @FXML
-    private void afficherRendezVous() {
+    @FXML private void afficherRendezVous() {
+        setActif(btnRendezVous);
         chargerVue("receptionniste/rendezVous-view.fxml", "Mes Rendez-vous");
     }
 
-    @FXML
-    private void afficherConsultations() {
+    @FXML private void afficherConsultations() {
+        setActif(btnConsultations);
         chargerVue("medecin/consultation-view.fxml", "Consultations");
     }
 
-    @FXML
-    private void deconnecter() {
+    @FXML private void deconnecter() {
         SessionUtilisateur.getInstance().fermerSession();
         Navigation.naviguerVers("auth/login-view.fxml");
     }
@@ -145,21 +142,14 @@ public class MedecinDashboardController implements Initializable {
     private void chargerVue(String fxmlPath, String titre) {
         try {
             lblPageTitre.setText(titre);
-            URL fxmlUrl = getClass().getResource(
+            URL resource = getClass().getResource(
                     "/sn/cheikh/gestion_clinique_medicale/" + fxmlPath);
-            if (fxmlUrl == null) {
+            if (resource == null) {
                 System.err.println("FXML introuvable : " + fxmlPath);
                 return;
             }
-            Node vue = FXMLLoader.load(fxmlUrl);
-
-            // Masquer le dashboardPane, afficher la nouvelle vue
-            dashboardPane.setVisible(false);
-
-            // Retirer les vues dynamiques précédentes (garder dashboardPane)
-            contentPane.getChildren().removeIf(n -> n != dashboardPane);
-            contentPane.getChildren().add(vue);
-
+            Node vue = FXMLLoader.load(resource);
+            contentPane.getChildren().setAll(vue);
         } catch (Exception e) {
             System.err.println("Erreur chargement vue : " + fxmlPath);
             e.printStackTrace();

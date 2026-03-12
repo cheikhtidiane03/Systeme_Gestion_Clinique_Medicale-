@@ -5,103 +5,42 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="sn.cheikh.gestion_clinique_medicale.Controller.ConsultationController"
-      styleClass="view-root" spacing="16"
+      styleClass="view-root" spacing="20"
       stylesheets="@../css/style.css">
 
-    <Label text="Gestion des Consultations" styleClass="view-titre"/>
-
-    <HBox spacing="16" VBox.vgrow="ALWAYS">
-
-        <!-- FORMULAIRE SCROLLABLE -->
-        <ScrollPane fitToWidth="true" prefWidth="340" minWidth="340"
-                    style="-fx-background-color:transparent; -fx-background:transparent; -fx-border-color:transparent;">
-
-            <VBox styleClass="form-card" spacing="10">
-
-                <Label text="Nouvelle consultation" styleClass="card-titre"/>
-                <Separator/>
-
-                <Label text="Patient *" styleClass="form-label"/>
-                <ComboBox fx:id="cbPatient" promptText="Selectionner un patient"
-                          maxWidth="Infinity" styleClass="form-input"/>
-
-                <Label text="Medecin *" styleClass="form-label"/>
-                <ComboBox fx:id="cbMedecin" promptText="Selectionner un medecin"
-                          maxWidth="Infinity" styleClass="form-input"/>
-
-                <Label text="Rendez-vous lie" styleClass="form-label"/>
-                <ComboBox fx:id="cbRendezVous" promptText="Selectionner un RDV (optionnel)"
-                          maxWidth="Infinity" styleClass="form-input"/>
-
-                <Label text="Diagnostic *" styleClass="form-label"/>
-                <TextArea fx:id="taDiagnostic"
-                          promptText="Diagnostic..."
-                          prefRowCount="3"
-                          styleClass="form-input"
-                          wrapText="true"/>
-
-                <Label text="Observations" styleClass="form-label"/>
-                <TextArea fx:id="taObservations"
-                          promptText="Observations..."
-                          prefRowCount="3"
-                          styleClass="form-input"
-                          wrapText="true"/>
-
-                <Label text="Prescription" styleClass="form-label"/>
-                <TextArea fx:id="taPrescription"
-                          promptText="Medicaments prescrits..."
-                          prefRowCount="3"
-                          styleClass="form-input"
-                          wrapText="true"/>
-
-                <Label fx:id="lblMessage" styleClass="msg-info" wrapText="true"/>
-
-                <HBox spacing="8">
-                    <Button text="Enregistrer"
-                            onAction="#sauvegarder"
-                            styleClass="btn-primary"
-                            HBox.hgrow="ALWAYS"
-                            maxWidth="Infinity"/>
-
-                    <Button text="Nouveau"
-                            onAction="#nouveau"
-                            styleClass="btn-secondary"
-                            HBox.hgrow="ALWAYS"
-                            maxWidth="Infinity"/>
-                </HBox>
-
-                <Button text="Generer Ordonnance PDF"
-                        onAction="#genererOrdonnance"
-                        styleClass="btn-info"
-                        maxWidth="Infinity"/>
-
-            </VBox>
-        </ScrollPane>
-
-        <!-- TABLEAU -->
-        <VBox styleClass="table-card" spacing="10" HBox.hgrow="ALWAYS">
-
-            <Label text="Historique des consultations" styleClass="card-titre"/>
-            <Separator/>
-
-            <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
-
-                <columns>
-                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
-                    <TableColumn fx:id="colPatient" text="Patient" prefWidth="160"/>
-                    <TableColumn fx:id="colMedecin" text="Medecin" prefWidth="160"/>
-                    <TableColumn fx:id="colDate" text="Date" prefWidth="140"/>
-                    <TableColumn fx:id="colDiagnostic" text="Diagnostic" prefWidth="200"/>
-                </columns>
-
-                <placeholder>
-                    <Label text="Aucune consultation enregistree"/>
-                </placeholder>
-
-            </TableView>
-
+    <!-- EN-TÊTE -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <VBox HBox.hgrow="ALWAYS" spacing="3">
+            <Label text="Gestion des Consultations" styleClass="view-titre"/>
+            <Label text="Enregistrer les consultations et générer les ordonnances"
+                   style="-fx-font-size:12px; -fx-text-fill:#64748B;"/>
         </VBox>
-
+        <!-- Bouton Nouveau masqué pour médecin via controller -->
+        <Button fx:id="btnNouveau" text="+ Nouvelle consultation" onAction="#nouveau"
+                styleClass="btn-primary" style="-fx-padding: 11 20;"/>
     </HBox>
 
+    <!-- TABLEAU PLEINE LARGEUR -->
+    <VBox styleClass="table-card" spacing="12" VBox.vgrow="ALWAYS">
+        <HBox alignment="CENTER_LEFT">
+            <Label text="Historique des consultations" styleClass="card-titre" HBox.hgrow="ALWAYS"/>
+        </HBox>
+        <Separator/>
+        <HBox spacing="8">
+            <Button fx:id="btnModifier"   text="Modifier"            onAction="#modifier"         styleClass="btn-secondary"/>
+            <Button text="Ordonnance PDF" onAction="#genererOrdonnance" styleClass="btn-info"/>
+        </HBox>
+        <Label fx:id="lblMessage" styleClass="msg-info" wrapText="true"/>
+        <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId"         text="ID"         prefWidth="60"/>
+                <TableColumn fx:id="colPatient"    text="Patient"    prefWidth="180"/>
+                <TableColumn fx:id="colMedecin"    text="Médecin"    prefWidth="180"/>
+                <TableColumn fx:id="colDate"       text="Date"       prefWidth="150"/>
+                <TableColumn fx:id="colDiagnostic" text="Diagnostic" prefWidth="280"/>
+                <TableColumn fx:id="colRdv"        text="RDV lié"    prefWidth="130"/>
+            </columns>
+            <placeholder><Label text="Aucune consultation enregistrée"/></placeholder>
+        </TableView>
+    </VBox>
 </VBox>

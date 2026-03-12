@@ -2,9 +2,9 @@ package sn.cheikh.gestion_clinique_medicale.Service;
 
 import sn.cheikh.gestion_clinique_medicale.Repository.IUtilisateurDAO;
 import sn.cheikh.gestion_clinique_medicale.Repository.Implementation.UtilisateurDAOImplementation;
+import sn.cheikh.gestion_clinique_medicale.Utilitaire.PasswordUtil;
 import sn.cheikh.gestion_clinique_medicale.enums.Role;
 import sn.cheikh.gestion_clinique_medicale.model.Utilisateur;
-import sn.cheikh.gestion_clinique_medicale.Utilitaire.PasswordUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,47 +14,32 @@ public class UtilisateurService {
     private final IUtilisateurDAO utilisateurDAO;
 
     public UtilisateurService() {
+        // Plus d'overrides vides — delete et deleteById sont dans GenericDAOImplementation
         this.utilisateurDAO = new UtilisateurDAOImplementation() {
             @Override
-            public void delete(Utilisateur entity) {
-
-            }
-
-            @Override
-            public void deleteById(Long aLong) {
+            public void delete(Long entity) {
 
             }
         };
     }
 
     public Optional<Utilisateur> connecter(String login, String motDePasse) {
-        if (login == null || login.isBlank())
-            throw new IllegalArgumentException("Login obligatoire.");
-        if (motDePasse == null || motDePasse.isBlank())
-            throw new IllegalArgumentException("Mot de passe obligatoire.");
-
+        if (login == null || login.isBlank())      throw new IllegalArgumentException("Login obligatoire.");
+        if (motDePasse == null || motDePasse.isBlank()) throw new IllegalArgumentException("Mot de passe obligatoire.");
         Optional<Utilisateur> utilisateur = utilisateurDAO.findByLogin(login.trim());
-        if (utilisateur.isPresent() && PasswordUtil.verifier(motDePasse, utilisateur.get().getMotDePasse())) {
+        if (utilisateur.isPresent() && PasswordUtil.verifier(motDePasse, utilisateur.get().getMotDePasse()))
             return utilisateur;
-        }
         return Optional.empty();
     }
 
     public void ajouterUtilisateur(String nom, String prenom, String login, String motDePasse, Role role) {
-        if (nom == null || nom.isBlank())
-            throw new IllegalArgumentException("Le nom est obligatoire.");
-        if (prenom == null || prenom.isBlank())
-            throw new IllegalArgumentException("Le prenom est obligatoire.");
-        if (login == null || login.isBlank())
-            throw new IllegalArgumentException("Le login est obligatoire.");
-        if (motDePasse == null || motDePasse.isBlank())
-            throw new IllegalArgumentException("Le mot de passe est obligatoire.");
-        if (role == null)
-            throw new IllegalArgumentException("Le role est obligatoire.");
-
-        if (utilisateurDAO.findByLogin(login.trim()).isPresent()) {
-            throw new IllegalArgumentException("Ce login existe deja.");
-        }
+        if (nom == null || nom.isBlank())           throw new IllegalArgumentException("Le nom est obligatoire.");
+        if (prenom == null || prenom.isBlank())     throw new IllegalArgumentException("Le prénom est obligatoire.");
+        if (login == null || login.isBlank())       throw new IllegalArgumentException("Le login est obligatoire.");
+        if (motDePasse == null || motDePasse.isBlank()) throw new IllegalArgumentException("Le mot de passe est obligatoire.");
+        if (role == null)                           throw new IllegalArgumentException("Le rôle est obligatoire.");
+        if (utilisateurDAO.findByLogin(login.trim()).isPresent())
+            throw new IllegalArgumentException("Ce login existe déjà.");
 
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setNom(nom.trim());
@@ -63,7 +48,6 @@ public class UtilisateurService {
         utilisateur.setMotDePasse(PasswordUtil.hasher(motDePasse));
         utilisateur.setRole(role);
         utilisateur.setActif(true);
-
         utilisateurDAO.save(utilisateur);
     }
 
@@ -74,11 +58,7 @@ public class UtilisateurService {
     }
 
     public void supprimerUtilisateur(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("L'ID de l'utilisateur est obligatoire.");
-        }
-
-        // CORRECTION ICI : utiliser deleteById au lieu de delete
+        if (id == null) throw new IllegalArgumentException("ID utilisateur invalide.");
         utilisateurDAO.deleteById(id);
     }
 
@@ -87,37 +67,17 @@ public class UtilisateurService {
         return utilisateurDAO.findById(id);
     }
 
-    public List<Utilisateur> getTousUtilisateurs() {
-        return utilisateurDAO.findAll();
-    }
-
-    public List<Utilisateur> getMedecins() {
-        return utilisateurDAO.findByRole(Role.MEDECIN);
-    }
+    public List<Utilisateur> getTousUtilisateurs() { return utilisateurDAO.findAll(); }
+    public List<Utilisateur> getMedecins()          { return utilisateurDAO.findByRole(Role.MEDECIN); }
 
     public void activerUtilisateur(Long id) {
-        Optional<Utilisateur> opt = utilisateurDAO.findById(id);
-        if (opt.isPresent()) {
-            Utilisateur user = opt.get();
-            user.setActif(true);
-            utilisateurDAO.update(user);
-        }
+        utilisateurDAO.findById(id).ifPresent(u -> { u.setActif(true);  utilisateurDAO.update(u); });
     }
 
     public void desactiverUtilisateur(Long id) {
-        Optional<Utilisateur> opt = utilisateurDAO.findById(id);
-        if (opt.isPresent()) {
-            Utilisateur user = opt.get();
-            user.setActif(false);
-            utilisateurDAO.update(user);
-        }
+        utilisateurDAO.findById(id).ifPresent(u -> { u.setActif(false); utilisateurDAO.update(u); });
     }
 
-    public long getNombreUtilisateurs() {
-        return utilisateurDAO.findAll().size();
-    }
-
-    public long getNombreMedecins() {
-        return utilisateurDAO.findByRole(Role.MEDECIN).size();
-    }
+    public long getNombreUtilisateurs() { return utilisateurDAO.findAll().size(); }
+    public long getNombreMedecins()     { return utilisateurDAO.findByRole(Role.MEDECIN).size(); }
 }

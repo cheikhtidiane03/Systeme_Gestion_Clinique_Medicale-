@@ -2,68 +2,82 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="sn.cheikh.gestion_clinique_medicale.Controller.MedecinDashboardController"
-      stylesheets="@../css/style.css"
-      styleClass="main-root"
-      prefWidth="1100" prefHeight="700">
+<HBox prefHeight="720" prefWidth="1150" styleClass="main-root" stylesheets="@../css/style.css"
+      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="sn.cheikh.gestion_clinique_medicale.Controller.MedecinDashboardController">
 
-    <VBox styleClass="sidebar" prefWidth="220" minWidth="220">
-        <VBox styleClass="sidebar-header" spacing="4">
-            <Label text="Clinique" styleClass="sidebar-title"/>
-            <Label text="MEDECIN" styleClass="sidebar-role"/>
+    <VBox minWidth="230" prefWidth="230" styleClass="sidebar">
+        <VBox spacing="8" styleClass="sidebar-header">
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label style="-fx-font-size:22px; -fx-font-weight:bold; -fx-text-fill:#6366F1;" text="+"/>
+                <Label styleClass="sidebar-title" text="Clinique"/>
+            </HBox>
+            <Label style="-fx-max-width:100;" styleClass="sidebar-role" text="MÉDECIN"/>
         </VBox>
-        <VBox styleClass="sidebar-user" spacing="2">
-            <Label fx:id="lblNomUtilisateur" text="Dr. Utilisateur" styleClass="sidebar-username"/>
-            <Label fx:id="lblDate" text="" styleClass="sidebar-userrole"/>
+        <VBox spacing="2" styleClass="sidebar-user">
+            <Label fx:id="lblNomUtilisateur" styleClass="sidebar-username" text="Dr. Utilisateur"/>
+            <Label fx:id="lblDate" styleClass="sidebar-userrole" text=""/>
         </VBox>
         <Separator styleClass="sidebar-separator"/>
-        <VBox spacing="2" style="-fx-padding: 8 0 0 0;" VBox.vgrow="ALWAYS">
-            <Button text="Tableau de bord" onAction="#afficherDashboard"     maxWidth="Infinity" styleClass="sidebar-btn"/>
-            <Button text="Mes Patients"    onAction="#afficherPatients"      maxWidth="Infinity" styleClass="sidebar-btn"/>
-            <Button text="Mes Rendez-vous" onAction="#afficherRendezVous"    maxWidth="Infinity" styleClass="sidebar-btn"/>
-            <Button text="Consultations"   onAction="#afficherConsultations" maxWidth="Infinity" styleClass="sidebar-btn"/>
+        <Label styleClass="sidebar-section" text="NAVIGATION"/>
+        <VBox spacing="1" VBox.vgrow="ALWAYS">
+            <Button fx:id="btnDashboard"     maxWidth="Infinity" onAction="#afficherDashboard"
+                    styleClass="sidebar-btn" text="  Tableau de bord"/>
+            <Button fx:id="btnPatients"      maxWidth="Infinity" onAction="#afficherPatients"
+                    styleClass="sidebar-btn" text="  Mes Patients"/>
+            <Button fx:id="btnRendezVous"    maxWidth="Infinity" onAction="#afficherRendezVous"
+                    styleClass="sidebar-btn" text="  Mes Rendez-vous"/>
+            <Button fx:id="btnConsultations" maxWidth="Infinity" onAction="#afficherConsultations"
+                    styleClass="sidebar-btn" text="  Consultations"/>
         </VBox>
         <VBox style="-fx-padding: 0 16 8 16;">
-            <Button text="Deconnexion" onAction="#deconnecter" maxWidth="Infinity" styleClass="btn-logout"/>
+            <Button maxWidth="Infinity" onAction="#deconnecter" styleClass="btn-logout" text="Déconnexion"/>
         </VBox>
     </VBox>
 
-    <VBox HBox.hgrow="ALWAYS" styleClass="content-area">
-        <HBox styleClass="topbar" alignment="CENTER_LEFT">
-            <Label fx:id="lblPageTitre" text="Tableau de bord" styleClass="page-titre"/>
+    <VBox styleClass="content-area" HBox.hgrow="ALWAYS">
+        <HBox alignment="CENTER_LEFT" spacing="16" styleClass="topbar">
+            <Label fx:id="lblPageTitre" styleClass="page-titre" text="Tableau de bord" HBox.hgrow="ALWAYS"/>
+            <Label fx:id="lblTopDate" style="-fx-font-size:12px; -fx-text-fill:#94A3B8;" text=""/>
         </HBox>
-        <StackPane fx:id="contentPane" VBox.vgrow="ALWAYS">
-            <VBox fx:id="dashboardPane" styleClass="content-pane" spacing="20">
-                <HBox spacing="16">
-                    <VBox styleClass="stat-card stat-blue" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="6">
-                        <Label fx:id="lblMesRdvJour" text="0" styleClass="stat-number"/>
-                        <Label text="Mes RDV aujourd'hui" styleClass="stat-label"/>
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                    style="-fx-background-color:transparent; -fx-background:transparent; -fx-border-color:transparent;">
+            <StackPane fx:id="contentPane">
+                <VBox fx:id="dashboardPane" spacing="24" styleClass="content-pane">
+                    <HBox spacing="16">
+                        <VBox spacing="4" styleClass="stat-card stat-purple" HBox.hgrow="ALWAYS">
+                            <Label fx:id="lblMesRdvJour" styleClass="stat-number" text="0"/>
+                            <Label styleClass="stat-label" text="Mes RDV aujourd'hui"/>
+                        </VBox>
+                        <VBox spacing="4" styleClass="stat-card stat-blue" HBox.hgrow="ALWAYS">
+                            <Label fx:id="lblMesConsultations" styleClass="stat-number" text="0"/>
+                            <Label styleClass="stat-label" text="Mes consultations"/>
+                        </VBox>
+                        <VBox spacing="4" styleClass="stat-card stat-green" HBox.hgrow="ALWAYS">
+                            <Label fx:id="lblMesPatients" styleClass="stat-number" text="0"/>
+                            <Label styleClass="stat-label" text="Mes patients"/>
+                        </VBox>
+                    </HBox>
+                    <VBox spacing="12" styleClass="table-card" VBox.vgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="card-titre" text="Mes rendez-vous du jour" HBox.hgrow="ALWAYS"/>
+                            <Label style="-fx-background-color:#EEF2FF; -fx-text-fill:#4F46E5;
+                                         -fx-background-radius:20; -fx-padding:4 12;
+                                         -fx-font-size:11px; -fx-font-weight:bold;" text="Aujourd'hui"/>
+                        </HBox>
+                        <Separator/>
+                        <TableView fx:id="tableRdvJour" prefHeight="340" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colRdvPatient" prefWidth="220" text="Patient"/>
+                                <TableColumn fx:id="colRdvHeure"   prefWidth="95"  text="Heure"/>
+                                <TableColumn fx:id="colRdvMotif"   prefWidth="270" text="Motif"/>
+                                <TableColumn fx:id="colRdvStatut"  prefWidth="130" text="Statut"/>
+                            </columns>
+                            <placeholder><Label text="Aucun rendez-vous aujourd'hui"/></placeholder>
+                        </TableView>
                     </VBox>
-                    <VBox styleClass="stat-card stat-green" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="6">
-                        <Label fx:id="lblMesConsultations" text="0" styleClass="stat-number"/>
-                        <Label text="Mes consultations" styleClass="stat-label"/>
-                    </VBox>
-                    <VBox styleClass="stat-card stat-orange" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="6">
-                        <Label fx:id="lblMesPatients" text="0" styleClass="stat-number"/>
-                        <Label text="Patients" styleClass="stat-label"/>
-                    </VBox>
-                </HBox>
-                <VBox styleClass="table-card" spacing="10" VBox.vgrow="ALWAYS">
-                    <Label text="Mes rendez-vous du jour" styleClass="card-titre"/>
-                    <Separator/>
-                    <TableView fx:id="tableRdvJour" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn fx:id="colRdvPatient" text="Patient" prefWidth="200"/>
-                            <TableColumn fx:id="colRdvHeure"   text="Heure"   prefWidth="100"/>
-                            <TableColumn fx:id="colRdvMotif"   text="Motif"   prefWidth="250"/>
-                            <TableColumn fx:id="colRdvStatut"  text="Statut"  prefWidth="120"/>
-                        </columns>
-                        <placeholder><Label text="Aucun rendez-vous aujourd'hui"/></placeholder>
-                    </TableView>
                 </VBox>
-            </VBox>
-        </StackPane>
+            </StackPane>
+        </ScrollPane>
     </VBox>
 </HBox>

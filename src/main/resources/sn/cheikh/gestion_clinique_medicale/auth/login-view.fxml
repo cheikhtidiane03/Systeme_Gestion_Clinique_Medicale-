@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml"
-           fx:controller="sn.cheikh.gestion_clinique_medicale.Controller.LoginController"
-           styleClass="login-root"
-           stylesheets="@../css/style.css">
+<StackPane styleClass="login-root" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sn.cheikh.gestion_clinique_medicale.Controller.LoginController">
 
-    <VBox styleClass="login-card" alignment="CENTER" spacing="20" maxWidth="400">
-        <VBox alignment="CENTER" spacing="6">
-            <Label text="CLINIQUE MEDICALE" styleClass="login-titre"/>
-            <Label text="Systeme de Gestion" styleClass="login-sous-titre"/>
+    <VBox alignment="CENTER" maxWidth="420" spacing="0" styleClass="login-card">
+
+        <VBox alignment="CENTER" spacing="8" style="-fx-padding: 0 0 28 0;">
+            <Label style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #4F46E5;" />
+            <Label styleClass="login-titre" text="Clinique Medicale" />
+            <Label styleClass="login-sous-titre" text="Connexion" />
         </VBox>
-        <Separator/>
-        <VBox spacing="10">
-            <Label text="Login" styleClass="form-label"/>
-            <TextField fx:id="tfLogin" promptText="Votre login" styleClass="form-input"/>
-            <Label text="Mot de passe" styleClass="form-label"/>
-            <PasswordField fx:id="pfMotDePasse" promptText="Votre mot de passe" styleClass="form-input"/>
+
+        <Separator />
+
+        <VBox spacing="14" style="-fx-padding: 24 0 0 0;">
+
+            <VBox spacing="6">
+                <Label styleClass="form-label" text="Login" />
+                <TextField fx:id="tfLogin" maxWidth="Infinity" promptText="Entrez votre login" styleClass="form-input" />
+            </VBox>
+
+            <VBox spacing="6">
+                <Label styleClass="form-label" text="Password" />
+                <PasswordField fx:id="pfMotDePasse" maxWidth="Infinity" promptText="••••••••" styleClass="form-input" />
+            </VBox>
+
+            <Label fx:id="lblMessage" maxWidth="Infinity" styleClass="msg-erreur" wrapText="true" />
+
+            <Button maxWidth="Infinity" onAction="#connecter" style="-fx-padding: 13 0; -fx-font-size: 14px;" styleClass="btn-primary" text="Se connecter" />
         </VBox>
-        <Label fx:id="lblMessage" styleClass="msg-erreur" wrapText="true" maxWidth="300"/>
-        <Button text="Se connecter" onAction="#connecter"
-                styleClass="btn-primary" maxWidth="Infinity"
-                style="-fx-padding: 12 0; -fx-font-size: 14px;"/>
     </VBox>
 </StackPane>

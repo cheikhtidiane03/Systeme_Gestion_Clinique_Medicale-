@@ -2,37 +2,37 @@ package sn.cheikh.gestion_clinique_medicale.Service;
 
 import sn.cheikh.gestion_clinique_medicale.Repository.IPatientDAO;
 import sn.cheikh.gestion_clinique_medicale.Repository.Implementation.PatientDAOImplementation;
+import sn.cheikh.gestion_clinique_medicale.Utilitaire.ValidationUtil;
 import sn.cheikh.gestion_clinique_medicale.enums.Sexe;
 import sn.cheikh.gestion_clinique_medicale.model.Patient;
-import sn.cheikh.gestion_clinique_medicale.Utilitaire.ValidationUtil;
 
 import java.time.LocalDate;
 import java.util.List;
+
 public class PatientService {
 
     private final IPatientDAO patientDAO;
 
     public PatientService() {
+        // Plus d'overrides vides — delete et deleteById sont dans GenericDAOImplementation
         this.patientDAO = new PatientDAOImplementation() {
             @Override
-            public void delete(Patient entity) {
-
-            }
-
-            @Override
-            public void deleteById(Long aLong) {
+            public void delete(Long entity) {
 
             }
         };
     }
+
     public void ajouterPatient(String nom, String prenom, LocalDate dateNaissance,
                                Sexe sexe, String telephone, String adresse,
                                String groupeSanguin, String antecedentsMedicaux) {
-        if (nom == null || nom.isBlank())     throw new IllegalArgumentException("Le nom est obligatoire.");
-        if (prenom == null || prenom.isBlank()) throw new IllegalArgumentException("Le prenom est obligatoire.");
-        if (telephone == null || telephone.isBlank()) throw new IllegalArgumentException("Le telephone est obligatoire.");
-        if (!ValidationUtil.telephoneValide(telephone)) throw new IllegalArgumentException("Format téléphone invalide (ex: 784061514).");
-        if (dateNaissance != null && dateNaissance.isAfter(LocalDate.now())) throw new IllegalArgumentException("La date de naissance ne peut pas être dans le futur.");
+        if (nom == null || nom.isBlank())           throw new IllegalArgumentException("Le nom est obligatoire.");
+        if (prenom == null || prenom.isBlank())     throw new IllegalArgumentException("Le prénom est obligatoire.");
+        if (telephone == null || telephone.isBlank()) throw new IllegalArgumentException("Le téléphone est obligatoire.");
+        if (!ValidationUtil.telephoneValide(telephone))
+            throw new IllegalArgumentException("Format téléphone invalide (ex: 784061514).");
+        if (dateNaissance != null && dateNaissance.isAfter(LocalDate.now()))
+            throw new IllegalArgumentException("La date de naissance ne peut pas être dans le futur.");
 
         Patient patient = new Patient();
         patient.setNom(nom.trim());
@@ -53,9 +53,10 @@ public class PatientService {
     }
 
     public void supprimerPatient(Long id) {
-        patientDAO.findById(id).ifPresent(patientDAO::delete);
+        if (id == null) throw new IllegalArgumentException("ID patient invalide.");
+        // Utilise deleteById du GenericDAOImplementation — correctement implémenté
+        patientDAO.deleteById(id);
     }
-
 
     public List<Patient> getTousPatients() {
         return patientDAO.findAll();

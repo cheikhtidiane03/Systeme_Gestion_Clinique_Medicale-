@@ -19,6 +19,11 @@ public class RendezVousService {
     public RendezVousService() {
         this.rendezVousDAO = new RendezVousDAOImplementation() {
             @Override
+            public void delete(Long entity) {
+
+            }
+
+            @Override
             public void delete(RendezVous entity) {
 
             }

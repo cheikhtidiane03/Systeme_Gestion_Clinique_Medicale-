@@ -47,12 +47,33 @@ public abstract class GenericDAOImplementation<T, ID extends Serializable> imple
         }
     }
 
+    // ── delete(T entity) ── trouve l'entité par son id et la supprime
     @Override
-    public void delete(Long entity) {
+    public void delete(T entity) {
         EntityManager em = FactoryJPA.getManager();
         try {
             em.getTransaction().begin();
-            em.remove(em.contains(entity) ? entity : em.merge(entity));
+            T managed = em.merge(entity);
+            em.remove(managed);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    // ── deleteById(ID id) ── supprime directement par l'identifiant
+    @Override
+    public void deleteById(ID id) {
+        EntityManager em = FactoryJPA.getManager();
+        try {
+            em.getTransaction().begin();
+            T entity = em.find(entityClass, id);
+            if (entity != null) {
+                em.remove(entity);
+            }
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
@@ -66,9 +87,6 @@ public abstract class GenericDAOImplementation<T, ID extends Serializable> imple
     public Optional<T> findById(ID id) {
         EntityManager em = FactoryJPA.getManager();
         try {
-            // On utilise JPQL + DISTINCT au lieu de em.find()
-            // pour éviter "More than one row with the given identifier"
-            // causé par les JOIN FETCH sur les collections Hibernate
             List<T> results = em.createQuery(
                             "SELECT DISTINCT e FROM " + entityClass.getSimpleName() + " e WHERE e.id = :id",
                             entityClass)

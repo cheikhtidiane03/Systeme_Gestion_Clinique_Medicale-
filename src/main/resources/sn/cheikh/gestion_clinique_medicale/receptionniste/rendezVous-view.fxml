@@ -5,72 +5,49 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="sn.cheikh.gestion_clinique_medicale.Controller.RendezVousController"
-      styleClass="view-root" spacing="16"
+      styleClass="view-root" spacing="20"
       stylesheets="@../css/style.css">
 
-    <Label text="Gestion des Rendez-vous" styleClass="view-titre"/>
+    <!-- EN-TÊTE -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <VBox HBox.hgrow="ALWAYS" spacing="3">
+            <Label text="Gestion des Rendez-vous" styleClass="view-titre"/>
+            <Label text="Planifier et suivre les rendez-vous des patients"
+                   style="-fx-font-size:12px; -fx-text-fill:#64748B;"/>
+        </VBox>
+        <Button fx:id="btnNouveauBar" text="+ Nouveau RDV" onAction="#nouveau"
+                styleClass="btn-primary" style="-fx-padding: 11 20;"/>
+    </HBox>
 
-    <HBox spacing="8" styleClass="search-bar">
+    <!-- FILTRES -->
+    <HBox spacing="10" styleClass="search-bar" alignment="CENTER_LEFT">
         <Button text="RDV du jour"  onAction="#afficherDuJour" styleClass="btn-info"/>
         <Button text="Tous les RDV" onAction="#chargerTous"    styleClass="btn-secondary"/>
         <Pane HBox.hgrow="ALWAYS"/>
-        <Button text="Nouveau"      onAction="#nouveau"        styleClass="btn-primary"/>
+        <Label text="Cliquer sur une ligne pour la sélectionner"
+               style="-fx-font-size:11px; -fx-text-fill:#94A3B8;"/>
     </HBox>
 
-    <HBox spacing="16" VBox.vgrow="ALWAYS">
-
-        <ScrollPane fitToWidth="true" prefWidth="340" minWidth="340"
-                    style="-fx-background-color:transparent; -fx-background:transparent; -fx-border-color:transparent;">
-            <VBox styleClass="form-card" spacing="10">
-                <Label text="Planifier un rendez-vous" styleClass="card-titre"/>
-                <Separator/>
-
-                <Label text="Patient *" styleClass="form-label"/>
-                <ComboBox fx:id="cbPatient" promptText="Selectionner un patient"
-                          maxWidth="Infinity" styleClass="form-input"/>
-
-                <Label text="Medecin *" styleClass="form-label"/>
-                <ComboBox fx:id="cbMedecin" promptText="Selectionner un medecin"
-                          maxWidth="Infinity" styleClass="form-input"/>
-
-                <Label text="Date *" styleClass="form-label"/>
-                <DatePicker fx:id="dpDate" maxWidth="Infinity" styleClass="form-input"/>
-
-                <Label text="Heure *" styleClass="form-label"/>
-                <ComboBox fx:id="cbHeure" promptText="Choisir une heure"
-                          maxWidth="Infinity" styleClass="form-input" editable="true"/>
-
-                <Label text="Motif" styleClass="form-label"/>
-                <TextField fx:id="tfMotif" promptText="Motif de la consultation"
-                           styleClass="form-input"/>
-
-                <Label fx:id="lblMessage" styleClass="msg-info" wrapText="true"/>
-
-                <HBox spacing="8">
-                    <Button text="Sauvegarder" onAction="#sauvegarder"
-                            styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-                    <Button text="Nouveau" onAction="#nouveau"
-                            styleClass="btn-secondary" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-                </HBox>
-                <Button text="Annuler ce RDV" onAction="#annuler"
-                        styleClass="btn-danger" maxWidth="Infinity"/>
-            </VBox>
-        </ScrollPane>
-
-        <VBox styleClass="table-card" spacing="10" HBox.hgrow="ALWAYS">
-            <Label text="Liste des rendez-vous" styleClass="card-titre"/>
-            <Separator/>
-            <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
-                <columns>
-                    <TableColumn fx:id="colId"        text="ID"         prefWidth="50"/>
-                    <TableColumn fx:id="colPatient"   text="Patient"    prefWidth="150"/>
-                    <TableColumn fx:id="colMedecin"   text="Medecin"    prefWidth="150"/>
-                    <TableColumn fx:id="colDateHeure" text="Date/Heure" prefWidth="130"/>
-                    <TableColumn fx:id="colMotif"     text="Motif"      prefWidth="150"/>
-                    <TableColumn fx:id="colStatut"    text="Statut"     prefWidth="100"/>
-                </columns>
-                <placeholder><Label text="Aucun rendez-vous"/></placeholder>
-            </TableView>
-        </VBox>
-    </HBox>
+    <!-- TABLEAU PLEINE LARGEUR -->
+    <VBox styleClass="table-card" spacing="12" VBox.vgrow="ALWAYS">
+        <HBox alignment="CENTER_LEFT">
+            <Label text="Liste des rendez-vous" styleClass="card-titre" HBox.hgrow="ALWAYS"/>
+        </HBox>
+        <Separator/>
+        <HBox spacing="8">
+            <Button text="Modifier"    onAction="#modifier" styleClass="btn-secondary"/>
+            <Button text="Annuler RDV" onAction="#annuler"  styleClass="btn-danger"/>
+        </HBox>
+        <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId"        text="ID"         prefWidth="60"/>
+                <TableColumn fx:id="colPatient"   text="Patient"    prefWidth="180"/>
+                <TableColumn fx:id="colMedecin"   text="Médecin"    prefWidth="180"/>
+                <TableColumn fx:id="colDateHeure" text="Date/Heure" prefWidth="160"/>
+                <TableColumn fx:id="colMotif"     text="Motif"      prefWidth="200"/>
+                <TableColumn fx:id="colStatut"    text="Statut"     prefWidth="120"/>
+            </columns>
+            <placeholder><Label text="Aucun rendez-vous trouvé"/></placeholder>
+        </TableView>
+    </VBox>
 </VBox>

@@ -22,6 +22,8 @@ public class HelloApplication extends Application {
 
         Scene scene = new Scene(fxmlLoader.load(), 900, 600);
         stage.setTitle("Clinique Médicale — Gestion");
+//        stage.setMaximized(true);
+//        stage.setMinWidth(1000);
         stage.setScene(scene);
         stage.setResizable(true);
         stage.centerOnScreen();

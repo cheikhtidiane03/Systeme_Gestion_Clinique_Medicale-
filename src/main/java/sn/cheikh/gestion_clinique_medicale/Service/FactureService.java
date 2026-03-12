@@ -16,22 +16,21 @@ public class FactureService {
     public FactureService() {
         this.factureDAO = new FactureDAOImplementation() {
             @Override
-            public void delete(Facture entity) {
+            public void delete(Long entity) {
 
             }
 
             @Override
-            public void deleteById(Long aLong) {
+            public void delete(Facture entity) {}
 
-            }
+            @Override
+            public void deleteById(Long aLong) {}
         };
     }
 
-    /**
-     * Crée et sauvegarde une nouvelle facture.
-     * Utilisé par FactureController via creerFacture(consultation, montant, mode).
-     */
     public void creerFacture(Consultation consultation, double montantTotal, String modePaiement) {
+
+        // ── Validations métier ──
         if (consultation == null)
             throw new IllegalArgumentException("La consultation est obligatoire.");
         if (montantTotal <= 0)
@@ -39,6 +38,19 @@ public class FactureService {
         if (modePaiement == null || modePaiement.isBlank())
             throw new IllegalArgumentException("Le mode de paiement est obligatoire.");
 
+        // ── Vérifier que cette consultation n'a pas déjà une facture ──
+        boolean dejaFacturee = factureDAO.findAll().stream()
+                .anyMatch(f -> f.getConsultation() != null
+                        && f.getConsultation().getId().equals(consultation.getId()));
+
+        if (dejaFacturee) {
+            throw new IllegalArgumentException(
+                    "Cette consultation a déjà une facture enregistrée.\n" +
+                            "Sélectionnez une autre consultation."
+            );
+        }
+
+        // ── Création de la facture ──
         Facture facture = new Facture();
         facture.setConsultation(consultation);
         facture.setMontantTotal(montantTotal);
@@ -62,5 +74,13 @@ public class FactureService {
 
     public List<Facture> getFacturesNonPayees() {
         return factureDAO.findByStatut(StatutPaiement.NON_PAYE);
+    }
+
+    // Vérifie si une consultation est déjà facturée (utile dans le controller)
+    public boolean estDejaFacturee(Consultation consultation) {
+        if (consultation == null) return false;
+        return factureDAO.findAll().stream()
+                .anyMatch(f -> f.getConsultation() != null
+                        && f.getConsultation().getId().equals(consultation.getId()));
     }
 }

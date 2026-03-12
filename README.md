@@ -119,7 +119,6 @@ public interface GenericDAO<T, ID> {
 }
 ```
 
-
 Chaque entité possède une interface DAO spécialisée (`IPatientDAO`, `IRendezVousDAO`, etc.)
 et une implémentation concrète (`PatientDAOImplementation`, etc.), toutes héritant de `GenericDAOImplementation<T>`.
 
